@@ -52,11 +52,14 @@ const Form_Validation = () => {
     const { Name, Email, textarea, Phone } = value;
     console.log(value);
 
-    const register = await fetch(`${process.env.MONGODB_URL}/api/register`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ Name, Email, textarea, Phone }),
-    });
+    const register = await fetch(
+      `${process.env.NEXT_PUBLIC_URL}/api/register`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ Name, Email, textarea, Phone }),
+      }
+    );
 
     if (register.ok) {
       form.reset();
