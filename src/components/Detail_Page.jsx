@@ -12,7 +12,7 @@ import { useState, useEffect } from "react";
 
 const getTopic = async () => {
   try {
-    const res = await fetch(`/api/register`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/register`, {
       cache: "no-store", // disable caching to get fresh data
     });
     if (!res.ok) {

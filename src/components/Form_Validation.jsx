@@ -52,7 +52,7 @@ const Form_Validation = () => {
     const { Name, Email, textarea, Phone } = value;
     console.log(value);
 
-    const register = await fetch("/api/register", {
+    const register = await fetch(`${process.env.MONGODB_URL}/api/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ Name, Email, textarea, Phone }),
@@ -132,7 +132,6 @@ const Form_Validation = () => {
 
 export default Form_Validation;
 
-// Reusable Form Field Component
 const SignupForm = ({ name, inputType, placeholder, formControl }) => {
   return (
     <FormField
