@@ -47,32 +47,48 @@ const Form_Validation = () => {
     },
   });
 
-  const onSubmit = async (value) => {
-    setLoading(true);
-    const { Name, Email, textarea, Phone } = value;
-    console.log(value);
+  const onSubmit = async (value, form) => {
+    try {
+      setLoading(true);
+      const { Name, Email, textarea, Phone } = value;
+      console.log(value);
 
-    const register = await fetch(
-      `${process.env.NEXT_PUBLIC_URL}/api/register`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ Name, Email, textarea, Phone }),
+      const register = await fetch(
+        `${process.env.NEXT_PUBLIC_URL}/api/register`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ Name, Email, textarea, Phone }),
+        }
+      );
+
+      if (register.ok) {
+        form.reset();
+        toast(`${Name}`, {
+          description: "Your form has been submitted successfully",
+          className:
+            "group-[.toaster]:border-2 group-[.toaster]:border-green-400 group-[.toaster]:bg-green-200",
+          action: {
+            label: "Close",
+            onClick: () => console.log("Close"),
+          },
+        });
+      } else {
+        toast("Submission Failed", {
+          description: "Something went wrong. Please try again.",
+          className:
+            "group-[.toaster]:border-2 group-[.toaster]:border-red-400 group-[.toaster]:bg-red-200",
+        });
       }
-    );
-
-    if (register.ok) {
-      form.reset();
-      setLoading(false);
-      return toast(`${Name}`, {
-        description: "Your Form has been submitted successfully",
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast("Network Error", {
+        description: "Unable to submit form. Check your connection.",
         className:
-          "group-[.toaster]:border-2 group-[.toaster]:border-green-400 group-[.toaster]:bg-green-200",
-        action: {
-          label: "Close",
-          onClick: () => console.log("Close"),
-        },
+          "group-[.toaster]:border-2 group-[.toaster]:border-red-400 group-[.toaster]:bg-red-200",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
